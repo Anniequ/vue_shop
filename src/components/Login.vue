@@ -15,6 +15,7 @@
       >
         <!--用户名-->
         <div class="addIcon">
+          <!--用svg的方式引入icon-->
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-yonghu"></use>
           </svg>
