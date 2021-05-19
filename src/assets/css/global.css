@@ -19,3 +19,7 @@ html, body, #app{
 .el-pagination{
     margin-top: 15px;
 }
+.el-cascader-panel {
+    /*默认级联选择器下拉框太大了*/
+    height: 300px;
+  }

@@ -4,7 +4,8 @@ node_modules
 /src/assets/fonts
 jsconfig.json
 vue.config.js
-
+package.json
+package-lock.json
 
 
 # local env files
