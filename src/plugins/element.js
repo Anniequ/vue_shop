@@ -44,5 +44,5 @@ Vue.use(Checkbox)
 Vue.use(Upload)
 Vue.use(Timeline)
 Vue.use(TimelineItem)
-Vue.prototype.$message = Message  //导入弹框提示
-Vue.prototype.$confirm = MessageBox.confirm  //导入确认弹框提示
+Vue.prototype.$message = Message  // 导入弹框提示
+Vue.prototype.$confirm = MessageBox.confirm  // 导入确认弹框提示

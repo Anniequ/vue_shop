@@ -5,17 +5,11 @@
       <div class="avator_box">
         <img src="../assets/logo.png" alt="" />
       </div>
-      <!--登录表单区域-->
-      <el-form
-        ref="loginFormRef"
-        :model="loginForm"
-        :rules="loginFormRules"
-        label-width="0px"
-        class="login_form"
-      >
-        <!--用户名-->
+      <!-- 登录表单区域 -->
+      <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
+        <!-- 用户名 -->
         <div class="addIcon">
-          <!--用svg的方式引入icon-->
+          <!-- 用svg的方式引入icon -->
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-yonghu"></use>
           </svg>
@@ -23,7 +17,7 @@
             <el-input v-model="loginForm.username"></el-input>
           </el-form-item>
         </div>
-        <!--密码-->
+        <!-- 密码 -->
         <div class="addIcon">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-mima"></use>
@@ -32,14 +26,10 @@
             <el-input v-model="loginForm.password" type="password"></el-input>
           </el-form-item>
         </div>
-        <!--按钮区域-->
+        <!-- 按钮区域 -->
         <el-form-item class="btns">
-          <el-button type="primary" @click="submitForm('loginFormRef')"
-            >登录</el-button
-          >
-          <el-button type="info" @click="resetLoginForm('loginFormRef')"
-            >重置</el-button
-          >
+          <el-button type="primary" @click="submitForm('loginFormRef')">登录</el-button>
+          <el-button type="info" @click="resetLoginForm('loginFormRef')">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -50,19 +40,19 @@
 export default {
   data() {
     return {
-      //这是登录表单的数据绑定对象
+      // 这是登录表单的数据绑定对象
       loginForm: {
         username: 'admin',
         password: '123456'
       },
-      //这是表单的验证规则对象
+      // 这是表单的验证规则对象
       loginFormRules: {
-        //验证用户名是否合法
+        // 验证用户名是否合法
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
           { min: 3, max: 10, message: '长度在3到10个字符', trigger: 'blur' }
         ],
-        //验证密码是否合法
+        // 验证密码是否合法
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 6, max: 15, message: '长度在6到15个字符', trigger: 'blur' }
@@ -71,7 +61,7 @@ export default {
     }
   },
   methods: {
-    //点击重置按钮，重置登录表单
+    // 点击重置按钮，重置登录表单
     resetLoginForm(formName) {
       this.$refs[formName].resetFields()
     },
@@ -79,7 +69,7 @@ export default {
       this.$refs[formName].validate(async valid => {
         if (!valid) return
         const { data: res } = await this.$http.post('login', this.loginForm)
-        if (res.meta.status != 200) return this.$message.error('登录失败！')
+        if (res.meta.status !== 200) return this.$message.error('登录失败！')
         this.$message.success('登录成功！')
         window.sessionStorage.setItem('token', res.data.token)
         this.$router.push('/home')

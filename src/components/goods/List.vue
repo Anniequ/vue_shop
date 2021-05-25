@@ -12,17 +12,9 @@
     <el-card>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input
-            placeholder="请输入内容"
-            v-model="queryInfo.query"
-            clearable
-            @clear="getGoodsList"
-          >
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getGoodsList">
             <template #append>
-              <el-button
-                icon="el-icon-search"
-                @click="getGoodsList"
-              ></el-button>
+              <el-button icon="el-icon-search" @click="getGoodsList"></el-button>
             </template>
           </el-input>
         </el-col>
@@ -34,16 +26,8 @@
       <el-table :data="goodsList" border stripe>
         <el-table-column type="index"></el-table-column>
         <el-table-column label="商品名称" prop="goods_name"></el-table-column>
-        <el-table-column
-          label="商品价格（元）"
-          prop="goods_price"
-          width="95px"
-        ></el-table-column>
-        <el-table-column
-          label="商品重量"
-          prop="goods_weight"
-          width="70px"
-        ></el-table-column>
+        <el-table-column label="商品价格（元）" prop="goods_price" width="95px"></el-table-column>
+        <el-table-column label="商品重量" prop="goods_weight" width="70px"></el-table-column>
         <el-table-column label="创建时间" prop="add_time" width="140px">
           <template slot-scope="scope">
             {{ scope.row.add_time | dataFormat }}
@@ -51,16 +35,8 @@
         </el-table-column>
         <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" size="mini"
-              >编辑</el-button
-            >
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              size="mini"
-              @click="removeById(scope.row.goods_id)"
-              >删除</el-button
-            >
+            <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeById(scope.row.goods_id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -89,7 +65,7 @@ export default {
         pagenum: 1,
         pagesize: 10
       },
-      //商品列表
+      // 商品列表
       goodsList: [],
       // 总数据条数
       total: 0
@@ -99,7 +75,7 @@ export default {
     this.getGoodsList()
   },
   methods: {
-    //根据分页获取对应的商品列表
+    // 根据分页获取对应的商品列表
     async getGoodsList() {
       const { data: res } = await this.$http.get('goods', {
         params: this.queryInfo
@@ -108,7 +84,6 @@ export default {
       this.goodsList = res.data.goods
       this.total = res.data.total
     },
-    //
     handleSizeChange(newSize) {
       this.queryInfo.pagesize = newSize
       this.getGoodsList()

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--面包屑导航区域-->
+    <!-- 面包屑导航区域 -->
     <template>
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -10,27 +10,20 @@
     </template>
     <!-- 卡片视图区域-->
     <el-card class="box-card">
-      <!--搜索与添加区域-->
+      <!-- 搜索与添加区域 -->
       <el-row :gutter="200">
         <el-col :span="8">
-          <el-input
-            placeholder="请输入内容"
-            v-model="queryInfo.query"
-            clearable
-            @clear="getUserList"
-          >
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">
             <template #append>
               <el-button icon="el-icon-search" @click="getUserList"></el-button>
             </template>
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisible = true"
-            >添加用户</el-button
-          >
+          <el-button type="primary" @click="addDialogVisible = true">添加用户</el-button>
         </el-col>
       </el-row>
-      <!--用户列表区域-->
+      <!-- 用户列表区域 -->
       <el-table :data="userList" border stripe>
         <el-table-column type="index"></el-table-column>
         <el-table-column label="姓名" prop="username"></el-table-column>
@@ -38,48 +31,25 @@
         <el-table-column label="电话" prop="mobile"></el-table-column>
         <el-table-column label="角色" prop="role_name"></el-table-column>
         <el-table-column label="状态">
-          <!--作用域插槽，代替了prop-->
+          <!-- 作用域插槽，代替了prop -->
           <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.mg_state"
-              @change="userStateChanged(scope.row)"
-            ></el-switch>
+            <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180px">
           <template slot-scope="scope">
-            <!--修改按钮-->
-            <el-button
-              type="primary"
-              icon="el-icon-edit"
-              size="mini"
-              @click="showEditDialog(scope.row.id)"
-            ></el-button>
-            <!--删除按钮-->
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              size="mini"
-              @click="removeUserById(scope.row.id)"
-            ></el-button>
-            <!--分配角色按钮-->
-            <el-tooltip
-              effect="dark"
-              content="分配角色"
-              placement="top"
-              :enterable="false"
-            >
-              <el-button
-                type="warning"
-                icon="el-icon-setting"
-                size="mini"
-                @click="setRole(scope.row)"
-              ></el-button>
+            <!-- 修改按钮 -->
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)"></el-button>
+            <!-- 删除按钮 -->
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUserById(scope.row.id)"></el-button>
+            <!-- 分配角色按钮 -->
+            <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="setRole(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
-      <!--分页区域-->
+      <!-- 分页区域 -->
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -92,20 +62,10 @@
       </el-pagination>
     </el-card>
 
-    <!--添加用户的对话框  elelment官方上的用v-model, 不行-->
-    <el-dialog
-      title="添加用户"
-      :visible.sync="addDialogVisible"
-      width="50%"
-      @close="addDialogClosed"
-    >
-      <!--内容主体区域-->
-      <el-form
-        :model="addForm"
-        :rules="addFormRules"
-        ref="addFormRef"
-        label-width="70px"
-      >
+    <!-- 添加用户的对话框  elelment官方上的用v-model, 不行 -->
+    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%" @close="addDialogClosed">
+      <!-- 内容主体区域 -->
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="addForm.username"></el-input>
         </el-form-item>
@@ -119,7 +79,7 @@
           <el-input v-model="addForm.mobile"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部区域-->
+      <!-- 底部区域 -->
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="addDialogVisible = false">取 消</el-button>
@@ -127,20 +87,10 @@
         </span>
       </template>
     </el-dialog>
-    <!--修改用户对话框-->
-    <el-dialog
-      title="修改用户"
-      :visible.sync="editDialogVisible"
-      width="50%"
-      @close="editDialogClosed"
-    >
-      <!--内容主体区域-->
-      <el-form
-        :model="editForm"
-        :rules="editFormRules"
-        ref="editFormRef"
-        label-width="70px"
-      >
+    <!-- 修改用户对话框 -->
+    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
+      <!-- 内容主体区域 -->
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
         <el-form-item label="用户名">
           <el-input v-model="editForm.username" disabled></el-input>
         </el-form-item>
@@ -151,7 +101,7 @@
           <el-input v-model="editForm.mobile"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部区域-->
+      <!-- 底部区域 -->
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="editDialogVisible = false">取 消</el-button>
@@ -159,31 +109,20 @@
         </span>
       </template>
     </el-dialog>
-    <!--分配角色对话框-->
-    <el-dialog
-      title="分配角色"
-      :visible.sync="setRoleDialogVisible"
-      width="50%"
-      @close="setRoleDialogClosed"
-    >
-      <!--内容主体区域-->
+    <!-- 分配角色对话框 -->
+    <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="50%" @close="setRoleDialogClosed">
+      <!-- 内容主体区域 -->
       <div>
         <p>当前的用户：{{ userInfo.username }}</p>
         <p>当前的角色: {{ userInfo.role_name }}</p>
         <p>
           分配新角色:
           <el-select v-model="selectedRoleId" placeholder="请选择">
-            <el-option
-              v-for="item in rolesList"
-              :key="item.id"
-              :label="item.roleName"
-              :value="item.id"
-            >
-            </el-option>
+            <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id"> </el-option>
           </el-select>
         </p>
       </div>
-      <!--底部区域-->
+      <!-- 底部区域 -->
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="setRoleDialogVisible = false">取 消</el-button>
@@ -197,44 +136,44 @@
 <script>
 export default {
   data() {
-    //验证邮箱的规则
+    // 验证邮箱的规则
     var checkEmail = (rule, value, cb) => {
-      //验证邮箱的正则表达式
+      // 验证邮箱的正则表达式
       const regEmail = /^([a-zA-Z0-9])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
       if (regEmail.test(value)) {
-        //合法的邮箱
+        // 合法的邮箱
         return cb()
       }
       cb(new Error('请输入合法的邮箱'))
     }
-    //验证手机号的规则
+    // 验证手机号的规则
     var checkMobile = (rule, value, cb) => {
-      //验证手机号的正则表达式
+      // 验证手机号的正则表达式
       const regMobile = /^1(3\d|4[5-9]|5[0-35-9]|6[2567]|7[0-8]|8\d|9[0-35-9])\d{8}$/
       if (regMobile.test(value)) {
-        //合法的手机号
+        // 合法的手机号
         return cb()
       }
       cb(new Error('请输入合法的手机号'))
     }
     return {
-      //获取用户列表的参数对象
+      // 获取用户列表的参数对象
       queryInfo: {
         query: '',
-        pagenum: 1, //当前所在页数
-        pagesize: 2 //当前每页显示多少条数据
+        pagenum: 1, // 当前所在页数
+        pagesize: 2 // 当前每页显示多少条数据
       },
       userList: [],
       total: 0,
-      addDialogVisible: false, //控制添加用户对话框的显示与隐藏
-      //添加用户的表单数据
+      addDialogVisible: false, // 控制添加用户对话框的显示与隐藏
+      // 添加用户的表单数据
       addForm: {
         username: '',
         password: '',
         email: '',
         mobile: ''
       },
-      //添加用户的表单的验证规则对象
+      // 添加用户的表单的验证规则对象
       addFormRules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -253,11 +192,11 @@ export default {
           { validator: checkMobile, trigger: 'blur' }
         ]
       },
-      //控制修改用户的对话框显示与隐藏
+      // 控制修改用户的对话框显示与隐藏
       editDialogVisible: false,
-      //查询到的用户信息对象
+      // 查询到的用户信息对象
       editForm: {},
-      //修改表单的验证规则对象
+      // 修改表单的验证规则对象
       editFormRules: {
         email: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
@@ -268,13 +207,13 @@ export default {
           { validator: checkMobile, trigger: 'blur' }
         ]
       },
-      //控制分配角色对话框的显示与隐藏
+      // 控制分配角色对话框的显示与隐藏
       setRoleDialogVisible: false,
-      //需要被分配角色的用户信息
+      // 需要被分配角色的用户信息
       userInfo: {},
-      //所有角色的数据列表
+      // 所有角色的数据列表
       rolesList: {},
-      //已选中的角色id值
+      // 已选中的角色id值
       selectedRoleId: ''
     }
   },
@@ -286,53 +225,50 @@ export default {
       const { data: res } = await this.$http.get('users', {
         params: this.queryInfo
       })
-      if (res.meta.status !== 200)
-        return this.$message.error('获取用户列表失败！')
+      if (res.meta.status !== 200) return this.$message.error('获取用户列表失败！')
       this.userList = res.data.users
       this.total = res.data.total
     },
-    //监听pagesizing 改变事件
+    // 监听pagesizing 改变事件
     handleSizeChange(newSize) {
       this.queryInfo.pagesize = newSize
       this.getUserList()
     },
-    //监听页码 改变事件
+    // 监听页码 改变事件
     handleCurrentChange(newPage) {
       this.queryInfo.pagenum = newPage
       this.getUserList()
     },
-    //监听switch开关的状态改变
+    // 监听switch开关的状态改变
     async userStateChanged(userInfo) {
-      const { data: res } = await this.$http.put(
-        `/users/${userInfo.id}/state/${userInfo.mg_state}`
-      )
+      const { data: res } = await this.$http.put(`/users/${userInfo.id}/state/${userInfo.mg_state}`)
       if (res.meta.status !== 200) {
         userInfo.mg_state = !userInfo.mg_state
         return this.$message.error('更新用户状态失败')
       }
       return this.$message.success('更新用户状态成功')
     },
-    //监听添加用户对话框的关闭事件
+    // 监听添加用户对话框的关闭事件
     addDialogClosed() {
       this.$refs.addFormRef.resetFields()
     },
-    //点击按钮，添加新用户
+    // 点击按钮，添加新用户
     addUser() {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return
-        //可以发起添加用户的网络请求
+        // 可以发起添加用户的网络请求
         const { data: res } = await this.$http.post('users', this.addForm)
         if (res.meta.status !== 201) {
           this.$message.error('添加用户失败')
         }
         this.$message.success('添加用户成功')
-        //隐藏添加用户的对话框
+        // 隐藏添加用户的对话框
         this.addDialogVisible = false
-        //刷新用户列表
+        // 刷新用户列表
         this.getUserList()
       })
     },
-    //展示编辑用户的对话框
+    // 展示编辑用户的对话框
     async showEditDialog(id) {
       const { data: res } = await this.$http.get(`users/${id}`)
       if (res.meta.status !== 200) {
@@ -341,33 +277,29 @@ export default {
       this.editForm = res.data
       this.editDialogVisible = true
     },
-    //监听修改用户对话框的关闭事件
+    // 监听修改用户对话框的关闭事件
     editDialogClosed() {
       console.log(1)
       this.$refs.editFormRef.resetFields()
     },
-    //点击按钮，提交修改信息
+    // 点击按钮，提交修改信息
     editUser() {
       this.$refs.editFormRef.validate(async valid => {
         if (!valid) return
-        //可以发起修改用户信息的网络请求
-        const { data: res } = await this.$http.put(
-          `users/${this.editForm.id}`,
-          {
-            email: this.editForm.email,
-            mobile: this.editForm.mobile
-          }
-        )
-        if (res.meta.status !== 200)
-          return this.$message.error('更新用户信息失败')
+        // 可以发起修改用户信息的网络请求
+        const { data: res } = await this.$http.put(`users/${this.editForm.id}`, {
+          email: this.editForm.email,
+          mobile: this.editForm.mobile
+        })
+        if (res.meta.status !== 200) return this.$message.error('更新用户信息失败')
         this.editDialogVisible = false
-        //刷新用户列表
+        // 刷新用户列表
         this.getUserList()
       })
     },
-    //根据id删除用户
+    // 根据id删除用户
     removeUserById(id) {
-      //是否确认删除
+      // 是否确认删除
       this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -375,13 +307,12 @@ export default {
       })
         .then(() => {
           this.$http.delete(`users/${id}`).then(response => {
-            if (response.data.meta.status !== 200)
-              return this.$message.error('删除用户信息失败')
+            if (response.data.meta.status !== 200) return this.$message.error('删除用户信息失败')
             this.$message({
               type: 'success',
               message: '删除成功!'
             })
-            //刷新用户列表
+            // 刷新用户列表
             this.getUserList()
           })
         })
@@ -392,18 +323,17 @@ export default {
           })
         })
     },
-    //展示分配角色的对话框
+    // 展示分配角色的对话框
     setRole(userInfo) {
       this.userInfo = userInfo
-      //获取所有的角色列表
+      // 获取所有的角色列表
       this.$http.get('roles').then(({ data }) => {
-        if (data.meta.status !== 200)
-          return this.$message.error('获取角色列表失败')
+        if (data.meta.status !== 200) return this.$message.error('获取角色列表失败')
         this.rolesList = data.data
       })
       this.setRoleDialogVisible = true
     },
-    //点击修改用户角色
+    // 点击修改用户角色
     saveRoleInfo() {
       if (!this.selectedRoleId) return this.$message.error('请选择要分配的角色')
 
@@ -412,14 +342,13 @@ export default {
           rid: this.selectedRoleId
         })
         .then(({ data }) => {
-          if (data.meta.status !== 200)
-            return this.$message.error('更新用户角色失败')
+          if (data.meta.status !== 200) return this.$message.error('更新用户角色失败')
           this.$message.success('更新用户角色成功')
           this.getUserList()
           this.setRoleDialogVisible = false
         })
     },
-    //监听用户修改角色的对话框关闭，清除内容
+    // 监听用户修改角色的对话框关闭，清除内容
     setRoleDialogClosed() {
       this.selectedRoleId = ''
       this.userInfo = {}

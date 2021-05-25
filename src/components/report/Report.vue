@@ -54,7 +54,7 @@ export default {
     }
   },
   created() {},
-  //mounted执行时，页面上的元素已经初始化完毕
+  // mounted执行时，页面上的元素已经初始化完毕
   async mounted() {
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'))
